@@ -1,0 +1,11 @@
+#!/bin/sh
+
+config="$1"
+src="$2"
+dest="$3"
+fromfile="$HOME/.config/dobackups/$config"
+
+# TODO: try syncing as monolithic, uncompressed archive?
+
+rsync -vlrut --progress --files-from=$fromfile $src $dest
+rsync -vlrut --progress --files-from=$fromfile $dest $src

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# TODO:
+#		- work out deletion syncing
+
+config="$1"
+src="$2"
+dest="$3"
+fromfile="$HOME/.config/dobackups/$config"
+
+mkdir -p $HOME/.cache/dobackups
+mkdir -p /tmp/dobackups
+
+if [[ $config == "encrypted/"* ]]; then
+	for d in $(cat $fromfile); do
+		efromfile=$(mktemp /tmp/dobackups/efromfile.XXXXXX)
+		echo "$d".tar.gz.gpg > efromfile
+
+		resfile=$HOME/.cache/dobackups/"$d".tar.gz.gpg
+		mkdir -p $(dirname $resfile)
+
+		tar -czvf - "$src""$d" | gpg -e --recipient="David" > $resfile && \
+			rsync -vlrut --size-only --progress --delete --files-from=efromfile $HOME/.cache/dobackups/ $dest
+
+		rm $resfile
+		rm $efromfile
+	done
+	exit 0
+fi
+
+rsync -vlrut --progress --delete --files-from=$fromfile $src $dest
