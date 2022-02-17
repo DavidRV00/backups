@@ -1,0 +1,9 @@
+#!/bin/sh
+
+scripts="dobackups dosync"
+
+cp $scripts $HOME/bin/
+
+for s in $scripts; do
+	chmod a+x $HOME/bin/$s
+done
