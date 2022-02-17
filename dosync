@@ -4,8 +4,14 @@ config="$1"
 src="$2"
 dest="$3"
 fromfile="$HOME/.config/dobackups/$config"
+synctreedir="$HOME/.cache/dobackups/synctrees/$config"
 
-# TODO: try syncing as monolithic, uncompressed archive?
+mkdir -p $synctreedir
+touch $synctreedir/old
 
-rsync -vlrut --progress --files-from=$fromfile $src $dest
-rsync -vlrut --progress --files-from=$fromfile $dest $src
+if [[ "$(diff <(ls -laR $src) $synctreedir/old)" != "" ]]; then
+	rsync -vlrut --progress --delete --files-from=$fromfile $src $dest
+fi
+rsync -vlrut --progress --delete --files-from=$fromfile $dest $src
+
+ls -laR $src > $synctreedir/old

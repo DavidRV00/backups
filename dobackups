@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# TODO:
-#		- work out deletion syncing
-
 config="$1"
 src="$2"
 dest="$3"
