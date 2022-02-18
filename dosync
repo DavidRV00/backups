@@ -18,21 +18,12 @@ for d in $(cat $fromfile); do
 	curtreesync=$(mktemp /tmp/dobackups/curtreesync.XXXXXX)
 	ls -lAR "$src""$d" > $curtreesync
 
-	echo "BEG DIFF"
-	diff $curtreesync $synctreedir/$d
-	echo "END DIFF"
-
 	if [[ "$(diff $curtreesync $synctreedir/$d)" != "" ]]; then
 		rsync -vlrut --progress --delete --files-from=$efromfile $src $dest
 	else
 		rsync -vlrut --progress --delete --files-from=$efromfile $dest $src
 	fi
 	ls -lAR "$src""$d" > $synctreedir/$d
-
-	ls -lAR "$src""$d" > $curtreesync
-	echo "BEG DIFF"
-	diff $curtreesync $synctreedir/$d
-	echo "END DIFF"
 
 	rm $curtreesync
 	rm $efromfile
