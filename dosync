@@ -16,7 +16,7 @@ for d in $(cat $fromfile); do
 	touch $synctreedir/$d
 
 	curtreesync=$(mktemp /tmp/dobackups/curtreesync.XXXXXX)
-	ls -laR "$src""$d" > $curtreesync
+	ls -lAR "$src""$d" > $curtreesync
 
 	echo "BEG DIFF"
 	diff $curtreesync $synctreedir/$d
@@ -27,9 +27,9 @@ for d in $(cat $fromfile); do
 	else
 		rsync -vlrut --progress --delete --files-from=$efromfile $dest $src
 	fi
-	ls -laR "$src""$d" > $synctreedir/$d
+	ls -lAR "$src""$d" > $synctreedir/$d
 
-	ls -laR "$src""$d" > $curtreesync
+	ls -lAR "$src""$d" > $curtreesync
 	echo "BEG DIFF"
 	diff $curtreesync $synctreedir/$d
 	echo "END DIFF"
