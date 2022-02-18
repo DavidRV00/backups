@@ -10,7 +10,7 @@ mkdir -p $synctreedir
 
 for d in $(cat $fromfile); do
 	efromfile=$(mktemp /tmp/dobackups/efromfile.XXXXXX)
-	echo "$d" > efromfile
+	echo "$d" > $efromfile
 
 	touch $synctreedir/$d
 
