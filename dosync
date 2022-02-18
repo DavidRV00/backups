@@ -7,6 +7,7 @@ fromfile="$HOME/.config/dobackups/$config"
 synctreedir="$HOME/.cache/dobackups/synctrees/$config"
 
 mkdir -p $synctreedir
+mkdir -p /tmp/dobackups
 
 for d in $(cat $fromfile); do
 	efromfile=$(mktemp /tmp/dobackups/efromfile.XXXXXX)
